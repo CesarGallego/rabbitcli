@@ -25,14 +25,14 @@ var rootCmd = &cobra.Command{
 func rabbitreader(cmd *cobra.Command, args []string) {
 	conn, err := amqp.Dial(rabbitDial)
 	if err != nil {
-		os.Stderr.WriteString("Cant connect")
+        os.Stderr.WriteString(fmt.Sprintf("connect error: %s", err))
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 	defer conn.Close()
 	ch, err := conn.Channel()
 	if err != nil {
-		os.Stderr.WriteString("No channel")
+        os.Stderr.WriteString(fmt.Sprintf("chanel error: %s", err))
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
@@ -47,7 +47,7 @@ func rabbitreader(cmd *cobra.Command, args []string) {
 		nil,           // arguments
 	)
 	if err != nil {
-		os.Stderr.WriteString("No Queue")
+        os.Stderr.WriteString(fmt.Sprintf("queue error: %s", err))
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
